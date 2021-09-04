@@ -1,0 +1,62 @@
+---
+title: "Texas Political Demographics"
+author: "Conor McMahon"
+date: "9/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(janitor)
+library(here)
+library(kableExtra)
+```
+
+# 2020 Presidential Election
+
+In the 2020 presidential election, Texas voted 52.1\% for Trump and 46.5\% for Biden. The vote breakdown was 5,890,347 and 5,259,126. For every Biden voter, there were 1.12 Trump voters. 
+
+The same year, in California Biden received 63.5\% of the vote (11,110,250) and Trump 34.3\% (6,006,429). In New York, it was 60.9\% (5,244,886) for Biden and 37.7\% (3,251,997) for Trump.
+
+So, in 2020, more people voted for Trump in California than in Texas. Meanwhile, more people voted for Biden in Texas than in New York State.
+
+In fact, the ONLY states in the United States where Joe Biden received more votes in 2020 than in Texas were California and Florida. Trump won Florida, too. 
+
+These data are from CNN.[$^{[1]}$](https://www.cnn.com/election/2020/results/president)
+
+# Democrats in Texas
+
+Again, in 2020, 46.5\% of voters broke for Biden. Meanwhile, Pew[$^{[2]}$](https://www.pewforum.org/religious-landscape-study/state/texas/party-affiliation/) surveys suggest that about 40\% of Texans self-identify as Democrats, or Democrat-leaning. According to the same survey, 39\% identify as Republicans or Republican-leaning, and 21\% have 'no lean'.
+
+Taking 40\% of the population of Texas, which is 28,995,881[$^{[3]}$], we have about 11,598,352. 
+
+11.6 million people is larger than the populations of forty-three states. The only US states with entire populations larger than the number of Democrats in Texas are: California, Texas, Florida, New York, Pennsylvania, Illinois, Ohio, and Georgia. [$^{4}$](https://www.census.gov/data/tables/time-series/demo/popest/2010s-state-total.html)
+
+According to Pew[$^{4}$](https://www.pewforum.org/religious-landscape-study/compare/party-affiliation/by/state/), here is a table showing the political breakdown in those states: 
+
+```{r, echo=FALSE}
+
+state_names <- c("California",
+                 "Texas",
+                 "Florida",
+                 "New York",
+                 "Pennsylvania",
+                 "Illinois",
+                 "Ohio",
+                 "Georgia")
+state_populations <- c(39512223, 28995881, 21477737, 19453561, 12801989, 12671821, 11689100, 10617423)
+state_democrat_rates <- c(0.49, 0.40, 0.44, 0.53, 0.46, 0.48, 0.40, 0.41)
+
+state_politics <- data.frame(name = state_names,
+                             population = state_populations,
+                             percent_democrat = state_democrat_rates) %>%
+  mutate(democrats <- percent_democrat * population)
+
+kable(state_politics) %>%
+  kable_styling()
+
+```
+
+So, again. The ONLY state with more Democrats in it than Texas, in the entire country, is California. 
+
