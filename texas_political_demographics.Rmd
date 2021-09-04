@@ -25,6 +25,59 @@ In fact, the ONLY states in the United States where Joe Biden received more vote
 
 These data are from CNN.[$^{[1]}$](https://www.cnn.com/election/2020/results/president)
 
+``` {r echo=FALSE}
+
+democrat_votes <- c(46.5, 43.2, 41.4, 43.7, 38.2, 38.0)
+republican_votes <- c(52.1, 52.2, 57.2, 55.5, 61.1, 59.3)
+year <- c(2020, 2016, 2012, 2008, 2004, 2000)
+
+texas_presidential_results <- data.frame(democratic = democrat_votes,
+                                         republican = republican_votes,
+                                         year = year)
+
+ggplot(texas_presidential_results) +
+  geom_line(aes(x=year, y=republican), color="red", size=2) +
+  geom_line(aes(x=year, y=democratic), color="blue", size=2) + 
+  theme_bw() + 
+  ggtitle("Presidential Election Results in Texas") + 
+  ylab("Year") + 
+  xlab("Percent of Popular Vote") + 
+  scale_x_continuous(limits=c(2000,2020),expand=c(0,0)) + 
+  scale_y_continuous(limits=c(0,70),expand=c(0,0))
+
+texas_senate_dem <- c(15, 15, 12, 12, 11, 11, 12, 11, 11, 11, 12, 13)
+texas_senate_rep <- c(16, 15, 19, 19, 20, 19, 19, 19, 20, 20, 19, 18)
+texas_house_dem <- c(78, 77, 62, 64, 69, 74, 49, 55, 51, 55, 64, 67)
+texas_house_rep <- c(72, 71, 88, 86, 79, 76, 101, 95, 97, 95, 83, 82)
+year <- c(1999, 2001, 2003, 2005, 2007, 2009, 2011, 2013, 2015, 2017, 2019, 2021)
+
+texas_legislature <- data.frame(house_democrats = texas_house_dem,
+                                house_republicans = texas_house_rep,
+                                senate_democrats = texas_senate_dem,
+                                senate_republicans = texas_senate_rep,
+                                year = year)
+
+ggplot(texas_legislature) +
+  geom_line(aes(x=year, y=house_democrats), color="red", size=2) +
+  geom_line(aes(x=year, y=house_republicans), color="blue", size=2) + 
+  theme_bw() + 
+  ggtitle("Texas House Makeup") + 
+  ylab("Year") + 
+  xlab("Number of Representatives") + 
+  scale_x_continuous(limits=c(1999,2021),expand=c(0,0)) + 
+  scale_y_continuous(limits=c(0,110),expand=c(0,0))
+
+ggplot(texas_legislature) +
+  geom_line(aes(x=year, y=senate_democrats), color="red", size=2) +
+  geom_line(aes(x=year, y=senate_republicans), color="blue", size=2) + 
+  theme_bw() + 
+  ggtitle("Texas Senate Makeup") + 
+  ylab("Year") + 
+  xlab("Number of Senators") + 
+  scale_x_continuous(limits=c(1999,2021),expand=c(0,0)) + 
+  scale_y_continuous(limits=c(0,25),expand=c(0,0))
+```
+
 # Democrats in Texas
 
 Again, in 2020, 46.5\% of voters broke for Biden. Meanwhile, Pew[$^{[2]}$](https://www.pewforum.org/religious-landscape-study/state/texas/party-affiliation/) surveys suggest that about 40\% of Texans self-identify as Democrats, or Democrat-leaning. According to the same survey, 39\% identify as Republicans or Republican-leaning, and 21\% have 'no lean'.
@@ -46,12 +99,13 @@ state_names <- c("California",
                  "Ohio",
                  "Georgia")
 state_populations <- c(39512223, 28995881, 21477737, 19453561, 12801989, 12671821, 11689100, 10617423)
-state_democrat_rates <- c(0.49, 0.40, 0.44, 0.53, 0.46, 0.48, 0.40, 0.41)
+state_democrat_rates <- c(0.49, 0.40, 0.44, 0.53, 0.46, 0.48, 0.40, 0.41)*100
 
 state_politics <- data.frame(name = state_names,
                              population = state_populations,
                              percent_democrat = state_democrat_rates) %>%
-  mutate(democrats <- percent_democrat * population)
+  mutate(democrats = signif(percent_democrat * population / 100, 3))
+names(state_politics) <- c("State","Population","Democratic (%)","Democrats")
 
 kable(state_politics) %>%
   kable_styling()
@@ -59,4 +113,32 @@ kable(state_politics) %>%
 ```
 
 So, again. The ONLY state with more Democrats in it than Texas, in the entire country, is California. 
+
+# Views on Abortion
+
+According again to the Pew Research Center[$^{[5]}$](https://www.pewforum.org/religious-landscape-study/compare/views-about-abortion/by/state/), about 45\% of Texans say that abortion should "be legal in most/all circumstances", while about about 50\% say it should "be illegal in most/all circumstances." Similar numbers are reported for other states, too - the largest spread is in Massachusetts (74\% legal, 22\% illegal) and West Virginia (\35% legal, 58\% illegal). 
+
+
+```{r, echo=FALSE}
+
+# Prevent large populations from being output in scientific notation
+options(scipen=999)
+
+abortion_legal <- c(57, 45, 56, 64, 52, 56, 48, 48)
+abortion_illegal <- c(38, 50, 39, 32, 44, 41, 47, 49)
+state_politics <- state_politics %>%
+  mutate(legal=abortion_legal) %>%
+  mutate(legal_tot=signif(legal*Population/100,3)) %>%
+  mutate(illegal=abortion_illegal) %>%
+  mutate(illegal_tot=signif(illegal*Population/100,3))
+
+names(state_politics) <- c("State","Population","Demogcrat (%)","Democrats",
+                           "Pro-Legality (%)","Pro-Legality",
+                           "Pro-Illegality (%)","Pro-Illegality")
+
+kable(state_politics, format.args=list(big.mark=",")) %>%
+  kable_styling()
+
+```
+
 
