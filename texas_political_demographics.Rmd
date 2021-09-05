@@ -23,7 +23,7 @@ So, in 2020, more people voted for Trump in California than in Texas. Meanwhile,
 
 In fact, the ONLY states in the United States where Joe Biden received more votes in 2020 than in Texas were California and Florida. Trump won Florida, too. 
 
-These data are from CNN.[$^{[1]}$](https://www.cnn.com/election/2020/results/president)
+These data are from CNN. [$^{[1]}$](https://www.cnn.com/election/2020/results/president)
 
 ``` {r echo=FALSE}
 
@@ -58,8 +58,8 @@ texas_legislature <- data.frame(house_democrats = texas_house_dem,
                                 year = year)
 
 ggplot(texas_legislature) +
-  geom_line(aes(x=year, y=house_democrats), color="red", size=2) +
-  geom_line(aes(x=year, y=house_republicans), color="blue", size=2) + 
+  geom_line(aes(x=year, y=house_democrats), color="blue", size=2) +
+  geom_line(aes(x=year, y=house_republicans), color="red", size=2) + 
   theme_bw() + 
   ggtitle("Texas House Makeup") + 
   ylab("Year") + 
@@ -68,8 +68,8 @@ ggplot(texas_legislature) +
   scale_y_continuous(limits=c(0,110),expand=c(0,0))
 
 ggplot(texas_legislature) +
-  geom_line(aes(x=year, y=senate_democrats), color="red", size=2) +
-  geom_line(aes(x=year, y=senate_republicans), color="blue", size=2) + 
+  geom_line(aes(x=year, y=senate_democrats), color="blue", size=2) +
+  geom_line(aes(x=year, y=senate_republicans), color="red", size=2) + 
   theme_bw() + 
   ggtitle("Texas Senate Makeup") + 
   ylab("Year") + 
